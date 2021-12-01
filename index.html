@@ -186,7 +186,7 @@
             //포인트 데이터 설정
             L.geoJson(geodata, {
                 onEachFeature: function (feature, layer) {
-                            layer.bindPopup('<a href="' + feature.properties.url + 'target="_blank"><center><big><b>' + "[" + feature.properties.class + "]" +" " + feature.properties.name + '</b></big></a><br/>' + feature.properties.address)},
+                            layer.bindPopup('<a href="' + feature.properties.url + '" target="_blank"><center><big><b>' + "[" + feature.properties.class + "]" +" " + feature.properties.name + '</b></big></a><br/>' + feature.properties.address)},
 
                 pointToLayer: function(feature, latlng) { 
                     switch (feature.properties.category) {
