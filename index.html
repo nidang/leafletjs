@@ -1,19 +1,13 @@
-<!--html 선언-->
+<!--2021. 김지선. http://dh.aks.ac.kr/~jisun/edu/-->
 <!DOCTYPE html>
 
-<!--html 언어 '한글' 선언-->
 <html lang="ko">
 
     <head>
-        <!--타이틀 선언-->
         <title>KU21-2 데이터인문학 지도</title>
-        <!--문자 코드셋 '유니코드' 선언-->
         <meta charset="utf-8">
-        <!--leaflet의 css 선언-->
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
-        <!--leaflet의 javascript 선언-->
         <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
-        <!--style을 이용해 leaflet map이 그려질 공간을 설정-->
         <style>
             html, body, #mapid{
                 height: 100%;
@@ -23,45 +17,30 @@
     </head>
 
     <body>
-        <!--map이 그려질 부분인 div 코드 작성-->
         <div id = 'mapid'>
         </div>
      
         <script>
-            //맵 생성하기 -map 변수 설정과 초기 뷰(위경도, 줌레벨) 지정
             var map = L.map('mapid').setView([37.5378, 127.0253], 11);
-  
-            //맵 생성하기 -open street map 레이어 로드 및 출력
             var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
                 attribution:'&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> Contributors'
             }).addTo(map);
-
-            //아래는 추가 맵 리스트
-            //1, 구글 스트리트 맵 추가 
             var GoogleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
                 maxZoom: 20,
                 subdomains:['mt0','mt1','mt2','mt3']
             })
-
-            //2. 구글 위성맵 추가 
             var GoogleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
                 maxZoom: 20,
                 subdomains:['mt0','mt1','mt2','mt3']
             })
-
-            //3. 구글 지역맵 추가 
             var GoogleTerrain = L.tileLayer('http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}',{
                 maxZoom: 20,
                 subdomains:['mt0','mt1','mt2','mt3']
             })
-
-            //4. 구글 하이브리드맵 추가 
             var GoogleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
                 maxZoom: 20,
                 subdomains:['mt0','mt1','mt2','mt3']
             })
-
-            //5. osm watercolor맵 추가 
             var Stamen_Watercolor = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.{ext}', {
                 attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
                 subdomains: 'abcd',
@@ -70,7 +49,6 @@
                 ext: 'jpg'
             });
 
-            //layer control 생성
             var baseMaps = {
                 "GoogleStreetMap": GoogleStreets,
                 "GoogleSatelliteMap":GoogleSat,
@@ -80,10 +58,8 @@
                 "OpenStreetMap":osm
             };
             
-            //map 레이어를 기본 맵에 추가
             L.control.layers(baseMaps).addTo(map);
-  
-            //커스텀 아이콘 만들기1 -나의아이콘 클래스 설정
+		
             var myIcon = L.Icon.extend({
                 options: {
                 shadowUrl: 'image/myicon_shadow.png',
@@ -95,7 +71,6 @@
                 }
             });
 
-            //커스텀 아이콘 만들기2 -나의아이콘 클래스에 해당하는 각각의 아이콘 설정
             var castleIcon = new myIcon({iconUrl: 'image/myicon_castle.png'}),
                 mountainIcon = new myIcon({iconUrl: 'image/myicon_mountain.png'}),
                 mountainroadIcon = new myIcon({iconUrl: 'image/myicon_mountainroad.png'}),
@@ -106,9 +81,7 @@
                 L.icon = function (options) {
                     return new L.Icon(options);
                 };
-  
-
-            //geodata 레이어 생성         
+       
             var part_1 = L.layerGroup();
             var part_2 = L.layerGroup();
             var part_3 = L.layerGroup();  
@@ -118,7 +91,6 @@
             var part_7 = L.layerGroup();
             var part_8 = L.layerGroup();    
             
-            //geodata 레이어가 모두 체크되어 있도록 설정
             map.addLayer(part_1)
             map.addLayer(part_2)
             map.addLayer(part_3)
@@ -128,7 +100,6 @@
             map.addLayer(part_7)
             map.addLayer(part_8)
 
-            //geodata 레이어 메뉴 설정
             var overlays = {
                 "구금장소": part_1,
                 "산야": part_2,
@@ -140,14 +111,7 @@
                 "치안센터": part_8,
             };
 
-            //geodata 레이어 메뉴 위치 설정
             var ctr_mapLayers = L.control.layers(null, overlays, {collapsed:false, position:'bottomleft'}).addTo(map);
-            // https://docs.eegeo.com/eegeo.js/v0.1.780/docs/leaflet/L.Control.Layers/ @@@@
-
-
-
-            //하단에 geoJSON을 삽입하세요! : point data
-            //var geodata =[     /*이곳에 삽입하기*/     ];
         
             var geodata =[
 //셜록왓슨-Place point 데이터 중 일부
@@ -181,9 +145,6 @@
 
 ];  
 
-
-
-            //포인트 데이터 설정
             L.geoJson(geodata, {
                 onEachFeature: function (feature, layer) {
                             layer.bindPopup('<a href="' + feature.properties.url + '" target="_blank"><center><big><b>' + "[" + feature.properties.class + "]" +" " + feature.properties.name + '</b></big></a><br/>' + feature.properties.address)},
@@ -201,32 +162,23 @@
                         }
                     }
                 });
-
  
-  
-                //폴리건 데이터 위경도 좌표        
                 var latlngs1 = [[37.57192, 126.99171], [37.57133, 126.99184], [37.57141, 126.99202], [37.572, 126.99183]]; //역대합실
                 var latlngs2 = [[37.49571, 126.89757], [37.49546, 126.89765], [37.4952, 126.8973], [37.49559, 126.89712]]; //노상
                 var latlngs3 = [[37.50464, 126.99574], [37.50388, 126.99629], [37.50427, 126.9977], [37.50523, 126.99701]]; //초등학교
                 var latlngs4 = [[37.49292, 127.0874], [37.49225, 127.08768], [37.49252, 127.08859], [37.49319, 127.08826]]; //초등학교
 
-                //폴리건 데이터 그리기
                 var polygon = L.polygon(latlngs1, {color: "green", weight:15, opacity:0.7}).addTo(part_3);
                 var polygon = L.polygon(latlngs2, {color: "red", weight:15, opacity:0.7}).addTo(part_4);
                 var polygon = L.polygon(latlngs3, {color: "blue", weight:15, opacity:0.7}).addTo(part_8);
                 var polygon = L.polygon(latlngs4, {color: "blue", weight:15, opacity:0.7}).addTo(part_8);
- 
- 
 
-
-                //라인 데이터 위경도 좌표
                 var linelatlngs1 = [[37.56366, 126.98211], [37.56416, 126.98633]];
                 var linelatlngs2 = [[37.5291, 126.9295], [37.53716, 126.94227]];
                 var linelatlngs3 = [[37.5044, 127.0246], [37.4979, 127.0276]];
                 var linelatlngs4 = [[37.50697, 127.0566], [37.4979, 127.0276]];
                 var linelatlngs5 = [[37.4853, 126.9821], [37.4979, 127.0276]]; 
 
-                //라인 데이터 그리기
                 var polyline = L.polyline(linelatlngs1, {color: 'blue', weight:7, opacity:1.0}).addTo(part_1);
                 var polyline = L.polyline(linelatlngs2, {color: 'red', weight:7, opacity:1.0}).addTo(part_2);
                 var polyline = L.polyline(linelatlngs3, {color: 'green', weight:7, opacity:1.0}).addTo(part_3);
